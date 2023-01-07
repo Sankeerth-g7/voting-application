@@ -16,7 +16,14 @@
     "url": "https://github.com/Sankeerth-g7/voting-application/issues"
   },
   "homepage": "https://github.com/Sankeerth-g7/voting-application#readme",
-  "dependencies": {
-    "express": "^4.18.2"
+  "devDependencies": {
+    "eslint": "^8.31.0",
+    "express": "^4.18.2",
+    "husky": "^8.0.3",
+    "jest": "^29.3.1",
+    "lint-staged": "^13.1.0",
+    "nodemon": "^2.0.20",
+    "prettier": "^2.8.1",
+    "supertest": "^6.3.3"
   }
 }
