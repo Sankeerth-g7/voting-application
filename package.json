@@ -1,0 +1,19 @@
+{
+  "name": "voting-application",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Sankeerth-g7/voting-application.git"
+  },
+  "author": "sankeerth",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Sankeerth-g7/voting-application/issues"
+  },
+  "homepage": "https://github.com/Sankeerth-g7/voting-application#readme"
+}
