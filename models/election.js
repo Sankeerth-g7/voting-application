@@ -1,9 +1,7 @@
-'use strict';
-const {
-  Model
-} = require('sequelize');
+"use strict";
+const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
-  class Election extends Model {
+  class Elections extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -11,28 +9,237 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      Election.belongsTo(models.ElectionAdmin, {
+      Elections.belongsTo(models.Admin, {
         foreignKey: "userId",
       });
 
-      Election.hasMany(models.Question, {
+      Elections.hasMany(models.Question, {
         foreignKey: "electionId",
         onDelete: "CASCADE",
       });
 
-      Election.hasMany(models.Voters, {
+      Elections.hasMany(models.Voters, {
         foreignKey: "electionId",
         onDelete: "CASCADE",
       });
     }
+
+    static async createElection({ electionName, customString, userId }) {
+      const election = await Elections.create({
+        electionName: electionName,
+        customString: customString,
+        userId: userId,
+      });
+      return election;
     }
-  Election.init({
-    electionId: DataTypes.STRING,
-    electionName: DataTypes.STRING,
-    url: DataTypes.STRING
-  }, {
-    sequelize,
-    modelName: 'Election',
-  });
-  return Election;
+
+    static async getElectionsofUser({ userId }) {
+      return await this.findAll({
+        where: {
+          userId: userId,
+          status: false,
+        },
+      });
+    }
+    static async isElectionLive({ electionId }) {
+      let election = await this.findOne({
+        where: {
+          id: electionId,
+        },
+      });
+      if (election && election.status) {
+        return {
+          success: election.status,
+          ended: election.ended,
+          message: "Success",
+        };
+      } else if (election && !election.status) {
+        return {
+          success: election.status,
+          ended: election.ended,
+          message: "Election assigned to you is Not Live Yet!!!",
+        };
+      } else {
+        return {
+          success: false,
+          message: "Election Does Not Exist",
+        };
+      }
+    }
+
+    static async electionEnded({ electionId }) {
+      if (electionId == null || electionId == undefined || electionId == "") {
+        return {
+          success: false,
+          message: "Election Not Found",
+        };
+      } else {
+        const election = await this.findOne({
+          where: {
+            id: electionId,
+          },
+        });
+        if (election) {
+          if (election.ended) {
+            return {
+              success: true,
+              message: "Election Ended",
+            };
+          } else {
+            return {
+              success: false,
+              message: "Election Not Ended",
+            };
+          }
+        } else {
+          return {
+            success: false,
+            message: "Election Not Found",
+          };
+        }
+      }
+    }
+
+    static async getLiveElectionsofUser({ userId }) {
+      return await this.findAll({
+        where: {
+          userId: userId,
+          status: true,
+        },
+      });
+    }
+
+    static async launchElection({ electionId, userId }) {
+      let election = await this.findOne({
+        where: {
+          id: electionId,
+          userId: userId,
+        },
+      });
+      if (election) {
+        await election.update({ status: true });
+      }
+    }
+
+    static async endElection({ electionId, userId }) {
+      let election = await this.findOne({
+        where: {
+          id: electionId,
+          userId: userId,
+        },
+      });
+      if (election) {
+        await election.update({ status: false, ended: true });
+      }
+    }
+
+    static async isElectionbelongstoUser({ electionId, userId }) {
+      let election = await this.findOne({
+        where: {
+          id: electionId,
+        },
+        include: [
+          {
+            model: sequelize.models.ElectionAdmin,
+            where: {
+              id: userId,
+            },
+          },
+        ],
+      });
+      if (election) {
+        return {
+          success: true,
+          status: election.status,
+          ended: election.ended,
+        };
+      } else {
+        return {
+          success: false,
+          message: "Election does not belong to user",
+        };
+      }
+    }
+
+    static async getElection({ electionId }) {
+      return await this.findOne({
+        where: {
+          id: electionId,
+        },
+      });
+    }
+
+    static async deleteElection({ electionId }) {
+      return await this.destroy({
+        where: {
+          id: electionId,
+        },
+      });
+    }
+  }
+  Elections.init(
+    {
+      electionName: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          notNull: {
+            msg: "Election name cannot be empty",
+          },
+          notEmpty: {
+            msg: "Election name cannot be empty",
+          },
+          islen: function (val) {
+            if (val.length < 5) {
+              throw new Error(
+                "Election name must be atleast 5 characters long"
+              );
+            }
+          },
+        },
+      },
+      // Can be used to generate a custom URL for the election and should be unique for each election
+      customString: {
+        type: DataTypes.STRING,
+        unique: true,
+        allowNull: true,
+        validate: {
+          islen: function (val) {
+            if (val != null && val.length > 0 && val.length < 5) {
+              throw new Error(
+                "Custom string must be atleast 5 characters long"
+              );
+            }
+          },
+          isUnique: async function (val) {
+            if (val != null && val.length > 0) {
+              let election = await Elections.findOne({
+                where: {
+                  customString: val,
+                },
+              });
+              if (election) {
+                throw new Error(
+                  "Election with this custom string already exists"
+                );
+              }
+            }
+          },
+        },
+      },
+      status: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
+      },
+      ended: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
+      },
+    },
+    {
+      sequelize,
+      modelName: "Elections",
+    }
+  );
+  return Elections;
 };

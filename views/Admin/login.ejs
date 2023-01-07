@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title><%= title %></title>
+    <meta name="csrf-token" content="<%= csrfToken %>">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+    <div class="grid grid-cols-6">
+        <div class="col-start-3 col-span-2">
+            <%- include('header.ejs') %>
+            <form action="post">
+                <div>
+                    <label for="username">Username</label>
+                    <input type="text" placeholder ="enter username" name="username" id="username" required>
+                    <label for = "firstname">Firstname</label>
+                    <input type="text" placeholder ="enter firstname" name="firstname" id="firstname" required>
+                    <label for = "lastname">Lastname</label>
+                    <input type="text" placeholder ="enter lastname" name="lastname" id="lastname" required>
+                    <label for = "email">Email</label>
+                    <input type="email" placeholder ="enter email" name="email" id="email" required>
+                    <label for = "password">Password</label>
+                    <input type="password" name="password" id="password">
+                    <button class="px-4 py-4" type="submit">Login</button>
+                </div>
+            </form>
+</body>
+</html>
