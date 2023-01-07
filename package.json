@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/Sankeerth-g7/voting-application/issues"
   },
-  "homepage": "https://github.com/Sankeerth-g7/voting-application#readme"
+  "homepage": "https://github.com/Sankeerth-g7/voting-application#readme",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
 }
