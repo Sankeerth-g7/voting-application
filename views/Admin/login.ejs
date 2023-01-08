@@ -1,30 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title><%= title %></title>
-    <meta name="csrf-token" content="<%= csrfToken %>">
-    <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body>
-    <div class="grid grid-cols-6">
-        <div class="col-start-3 col-span-2">
-            <%- include('header.ejs') %>
-            <form action="post">
-                <div>
-                    <label for="username">Username</label>
-                    <input type="text" placeholder ="enter username" name="username" id="username" required>
-                    <label for = "firstname">Firstname</label>
-                    <input type="text" placeholder ="enter firstname" name="firstname" id="firstname" required>
-                    <label for = "lastname">Lastname</label>
-                    <input type="text" placeholder ="enter lastname" name="lastname" id="lastname" required>
-                    <label for = "email">Email</label>
-                    <input type="email" placeholder ="enter email" name="email" id="email" required>
-                    <label for = "password">Password</label>
-                    <input type="password" name="password" id="password">
-                    <button class="px-4 py-4" type="submit">Login</button>
-                </div>
-            </form>
-</body>
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="csrf-token" content="<%= csrfToken %>">
+        <title>todo manager</title>
+        <script src="https://cdn.tailwindcss.com"></script>
+        <link rel="stylesheet" href="/css/styles.css">
+    </head>
+    <body>
+        <div class="grid grid-cols-6">
+            <div class="col-start-3 col-span-2">
+                <%- include('header.ejs') %>
+                <h6 class="py-4">Login as admin to host a election</h6>
+                <form action="/admin/session" method="post">
+                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                    <div>
+                        <label for="email">Email:</label>
+                        <input class="py-1 border border-gray-300 text-gray-900 rounded p2 w-full" type="emial" name="email">
+                    </div>
+                    <div>
+                        <label for="password">Password:</label>
+                        <input class="py-1 border border-gray-300 text-gray-900 rounded p2 w-full" type="password" name="password">
+                    </div>
+                    <div class="py-2">
+                        <button class="py-2 text-white bg-green-600 hover:bg-green-800 font-medium px-3 py-2 rounded" type="submit">Sign in</button>
+                    </div>
+                </form>
+                <% if(messages && messages.error && messages.error.length > 0)  { %>
+                    <% for(var i=0; i<messages.error.length; i++) { %>
+                            <li> <%= messages.error[i] %></li>
+                    <% } %>
+                  <% } %>
+            </div>
+        </div>
+    </body>
 </html>

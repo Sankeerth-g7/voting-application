@@ -6,7 +6,8 @@
   "scripts": {
     "prepare": "husky install",
     "pretest": "set NODE_ENV=test&&npx sequelize-cli db:drop&&npx sequelize-cli db:create",
-    "test": "set NODE_ENV=test&&jest --detectOpenHandles"
+    "test": "set NODE_ENV=test&&jest --detectOpenHandles",
+    "app": "nodemon index.js -e js, ejs"
   },
   "lint-staged": {
     "*.js": [

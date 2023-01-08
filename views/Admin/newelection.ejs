@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="csrf-token" content="<%= csrfToken %>">
+        <title>todo manager</title>
+        <script src="https://cdn.tailwindcss.com"></script>
+        <link rel="stylesheet" href="/css/styles.css">
+    </head>
+    <body>
+        <div class="grid grid-cols-6">
+            <div class="col-start-3 col-span-2">
+                <h6 class="py-4">Create a new election</h6>
+                <form action="/admin/newelection" method="post">
+                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                    <div>
+                        <label for="Electionname">Election Name:</label>
+                        <input class="py-1 border border-gray-300 text-gray-900 rounded p2 w-full" type="text" placeholder="enter a name" name="Electionname" required>
+                    </div>
+                    <div>
+                        <label for="customString">Custom String:</label>
+                        <input class="py-1 border border-gray-300 text-gray-900 rounded p2 w-full" type="text" placeholder="enter a url" name="customString" required>
+                    </div>
+                    <div class="py-2">
+                        <button class="py-2 text-white bg-green-600 hover:bg-green-800 font-medium px-3 py-2 rounded" type="submit">Create</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </body>
+</html>

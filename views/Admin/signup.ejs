@@ -13,8 +13,8 @@
         <div class="grid grid-cols-6">
             <div class="col-start-3 col-span-2">
                 <%- include('header.ejs') %>
-                <h6 class="py-4">Signup as a new user</h6>
-                <form action="/admin" method="post">
+                <h6 class="py-4">Signup as a new admin</h6>
+                <form action="/admin/signup" method="post">
                     <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                     <div>
                         <label for="firstname">First Name:</label>
