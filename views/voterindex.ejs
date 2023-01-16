@@ -15,25 +15,25 @@
             <p class="py-2">Welcome to the Voting Application</p>
             <p class="py-2">Have an voter id ?<a href="/voter/login" class=" px-2 text-green-600 text-l">Sign In</a></p>
             <p class="py-2">get your voter id from election admin</p>
-            <div class="hideMe">
+            <div class="duration-500">
                 <% if(messages && messages.error && messages.error.length > 0)  { %>
-                    <ul class="bg-red-100 rounded border border-red-200 border-2 hideMe">
+                    <ul class="bg-red-100 rounded border border-red-200 border-2 duration-500">
                         <% for(var i=0; i<messages.error.length; i++) { %>
-                                <li class="text-center hideMe"> <%= messages.error[i] %></li>
+                                <li class="text-center duration-500"> <%= messages.error[i] %></li>
                         <% } %>
                     </ul>
                 <% } %>
                 <% if(messages && messages.success && messages.success.length > 0)  { %>
-                    <ul class="bg-green-100 rounded border border-green-200 border-2 hideMe">
+                    <ul class="bg-green-100 rounded border border-green-200 border-2 duration-500">
                         <% for(var i=0; i<messages.success.length; i++) { %>
-                                <li class="text-center hideMe"> <%= messages.success[i] %></li>
+                                <li class="text-center duration-500"> <%= messages.success[i] %></li>
                         <% } %>
                     </ul>
                 <% } %>
                 <% if(messages && messages.info && messages.info.length > 0)  { %>
-                    <ul class="bg-blue-100 rounded border border-blue-200 border-2 hideMe">
+                    <ul class="bg-blue-100 rounded border border-blue-200 border-2 duration-500">
                         <% for(var i=0; i<messages.info.length; i++) { %>
-                                <li class="text-center hideMe"> <%= messages.info[i] %></li>
+                                <li class="text-center duration-500"> <%= messages.info[i] %></li>
                         <% } %>
                     </ul>
                 <% } %>

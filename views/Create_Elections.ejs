@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <meta name="csrf-token" content="<%= csrfToken %>">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        function validateUrl_string() {
+            var Url_String = document.getElementById("Url_String");
+            // console.log(Url_String.value)
+            if (Url_String.validity.patternMismatch) {
+                Url_String.setCustomValidity("Custom String can only contain alphanumeric characters, hyphens and underscores");
+                Url_String.reportValidity();
+            } else {
+                Url_String.setCustomValidity("");
+                Url_String.reportValidity();
+            }
+        }
+        var token = document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+        function deleteElection(id){
+            fetch(`/admin/elections/${id}`, {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    _csrf: token,
+                })
+            })
+            .then((res) => {
+                if (res.ok){
+                    window.location.reload();
+                }
+            })
+            .catch((err) => {
+                console.log(err);
+            })
+        }
+    </script>
+</head>
+<body>
+    <div class="grid grid-cols-6">
+        <h1 class="col-start-3 font-medium px-3 py-1">Create Your Own Election </h1>
+        <div class="col-start-4 col-span-2 px-2 py-1"><a  class="text-green-600" href="/admin/signout">Signout</a></div>
+        <div class="col-start-3 col-span-2">
+            <form class="px-1" action="/admin/election" method="post">
+                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                <div class="py-2 px-3"> 
+                    <label for="name">Election Name : </label>
+                    <div class="py-1"></div>
+                    <input type="text" name="name" id="name" placeholder="Give Your Elections a Name" class="border border-gray-300 rounded text-gray-900 w-full p-2 text-sm">
+                    <div class="py-5">
+                        <label for="Url_String">Url_String : </label>
+                        <div class="py-1"></div>
+                        <input type="test" id="Url_String" name="Url_String" placeholder="Custom String for Public URL" class="w-full border border-gray-300 p-2 border border-slate-300 rounded text-sm shadow-sm placeholder-slate-400
+                        invalid:border-pink-500 invalid:text-pink-600
+                        focus:invalid:border-pink-500 focus:invalid:ring-pink-500" pattern="^[a-zA-z]+[0-9a-zA-Z]*(?:_[a-z0-9]+)*$" onkeyup="validateUrl_string()"/>
+                    </div>
+                    <div class="py-2">
+                        <button type="submit" class="bg-green-600 text-white px-5 py-1 rounded font-medium mx-1 my-1">Create New Election</button>
+                    </div>
+                </div>
+            </form> 
+            <h1 class="font-semibold">View Your elections :<a href="/admin/my_elections" class="px-2 py-2 text-green-600">Click Here</a></h1>
+            <br>
+            <h3 class="text-l px-3 py-2">Create an Election By providing the following:</h3>
+                <ul class="px-6 py-1">
+                    <li class="font-semibold py-1"> A Election Name</li>
+                    <li class="font-semibold py-1"> A custom string for the public URL</li>
+                </ul>
+            <div class="duration-500">
+                    <% if(messages && messages.error && messages.error.length > 0)  { %>
+                        <ul class="bg-red-100 rounded border border-red-200 border-2 duration-500">
+                            <% for(var i=0; i<messages.error.length; i++) { %>
+                                    <li class="text-center duration-500"> <%= messages.error[i] %></li>
+                            <% } %>
+                        </ul>
+                    <% } %>
+                    <% if(messages && messages.success && messages.success.length > 0)  { %>
+                        <ul class="bg-green-100 rounded border border-green-200 border-2 duration-500">
+                            <% for(var i=0; i<messages.success.length; i++) { %>
+                                    <li class="text-center duration-500"> <%= messages.success[i] %></li>
+                            <% } %>
+                        </ul>
+                    <% } %>
+                    <% if(messages && messages.info && messages.info.length > 0)  { %>
+                        <ul class="bg-blue-100 rounded border border-blue-200 border-2 duration-500">
+                            <% for(var i=0; i<messages.info.length; i++) { %>
+                                    <li class="text-center duration-500"> <%= messages.info[i] %></li>
+                            <% } %>
+                        </ul>
+                    <% } %>
+                </div>
+            </div>
+        </div> 
+    </div>
+</body>
+</html>

@@ -171,7 +171,7 @@ app.get("/admin", async (req, res) => {
 
 app.get(
   "/admin/login",
-  connectEnsureLogin.ensureLoggedOut({ redirectTo: "/admin/elections" }),
+  connectEnsureLogin.ensureLoggedOut({ redirectTo: "/admin/create_election" }),
   (req, res) => {
     res.render("adminlogin", {
       title: "Admin Login",
@@ -182,7 +182,7 @@ app.get(
 
 app.get(
   "/admin/signup",
-  connectEnsureLogin.ensureLoggedOut({ redirectTo: "/admin/elections" }),
+  connectEnsureLogin.ensureLoggedOut({ redirectTo: "/admin/create_election" }),
   (req, res) => {
     res.render("adminsignup", {
       title: "Admin Signup",
@@ -193,20 +193,20 @@ app.get(
 
 app.post(
   "/admin/login",
-  connectEnsureLogin.ensureLoggedOut({ redirectTo: "/admin/elections" }),
+  connectEnsureLogin.ensureLoggedOut({ redirectTo: "/admin/create_election" }),
   passport.authenticate("adminAuth", {
-    successRedirect: "/admin/elections",
+    successRedirect: "/admin/create_election",
     failureRedirect: "/admin/login",
     failureFlash: true,
   }),
   (req, res) => {
-    res.redirect("/admin/elections");
+    res.redirect("/admin/create_election");
   }
 );
 
 app.post(
   "/admin/signup",
-  connectEnsureLogin.ensureLoggedOut("/admin/elections"),
+  connectEnsureLogin.ensureLoggedOut("/admin/create_election"),
   async (req, res) => {
     console.log("Signing up a new admin");
     const hashedPassword = await bcrypt.hash(req.body.password, saltRounds);
@@ -222,7 +222,7 @@ app.post(
           // console.log(error);
           res.status(422).json(error);
         }
-        res.redirect("/admin/elections");
+        res.redirect("/admin/create_election");
       });
     } catch (error) {
       console.log(error);
@@ -238,7 +238,7 @@ app.post(
 
 app.get(
   "/admin/signout",
-  connectEnsureLogin.ensureLoggedIn({ redirectTo: "/admin/elections" }),
+  connectEnsureLogin.ensureLoggedIn({ redirectTo: "/admin/create_election" }),
   (req, res, next) => {
     req.logout((err) => {
       if (err) {
@@ -251,7 +251,7 @@ app.get(
 );
 
 app.get(
-  "/admin/elections",
+  "/admin/create_election",
   connectEnsureLogin.ensureLoggedIn({ redirectTo: "/admin/" }),
   async (req, res) => {
     const liveElections = await Elections.getLiveElectionsofUser({
@@ -259,8 +259,8 @@ app.get(
     });
     const elections = await Elections.getElectionsofUser({ userId: req.user.id });
     if (req.accepts("html")) {
-      res.render("elections", {
-        title: "Admin Dashboard",
+      res.render("Create_Elections", {
+        title: "Create Election",
         liveElections,
         elections,
         csrfToken: req.csrfToken(),
@@ -306,14 +306,14 @@ app.get(
         });
       } else {
         req.flash("error", doesElectionBelongToUser.message);
-        res.redirect("/admin/elections");
+        res.redirect("/admin/create_election");
       }
     } catch (error) {
       req.flash(
         "error",
         error.errors.map((error) => error.message)
       );
-      res.redirect("/admin/elections");
+      res.redirect("/admin/create_election");
     }
   }
 );
@@ -337,17 +337,17 @@ app.post(
           )
         ) {
           await Elections.createElection(election);
-          res.redirect("/admin/elections");
+          res.redirect("/admin/create_election");
         } else {
           req.flash(
             "error",
             "Custom string should only contain alphanumeric characters and should start with a letter"
           );
-          res.redirect("/admin/elections");
+          res.redirect("/admin/create_election");
         }
       } else {
         await Elections.createElection(election);
-        res.redirect("/admin/elections");
+        res.redirect("/admin/create_election");
       }
     } catch (error) {
       console.log(error);
@@ -356,13 +356,13 @@ app.post(
         error.errors.map((error) => error.message)
       );
       console.log(error.errors.map((error) => error.message));
-      res.redirect("/admin/elections");
+      res.redirect("/admin/create_election");
     }
   }
 );
 
 app.delete(
-  "/admin/elections/:id",
+  "/admin/create_election/:id",
   connectEnsureLogin.ensureLoggedIn({ redirectTo: "/admin/" }),
   async (req, res) => {
     console.log("Deleting election");
@@ -429,7 +429,7 @@ app.get(
         }
       } else {
         req.flash("error", isUserElection.message);
-        res.redirect("/admin/elections");
+        res.redirect("/admin/create_election");
       }
     } catch {
       (error) => {
@@ -438,7 +438,7 @@ app.get(
           "error",
           `Something went wrong, Pls try again later ${error}`
         );
-        res.redirect("/admin/elections");
+        res.redirect("/admin/create_election");
       };
     }
   }
@@ -482,7 +482,7 @@ app.post(
           "error",
           isUserElection.ended ? "Election Ended" : "Unauthorized Access"
         );
-        res.redirect("/admin/elections");
+        res.redirect("/admin/create_election");
       }
     } catch (error) {
       console.log(error);
@@ -490,8 +490,8 @@ app.post(
         "error",
         error.errors.map((error) => error.message)
       );
-      console.log("Redirecting to /admin/elections");
-      res.redirect("/admin/elections/voters/" + electionId);
+      console.log("Redirecting to /admin/create_election");
+      res.redirect("/admin/create_election/voters/" + electionId);
     }
   }
 );
@@ -580,13 +580,13 @@ app.get(
         }
       } else {
         req.flash("error", isUserElection.message);
-        res.redirect("/admin/elections");
+        res.redirect("/admin/create_election");
       }
     } catch {
       (err) => {
         console.log(err);
         req.flash("error", `Something went wrong, Pls try again later ${err}`);
-        res.redirect("/admin/elections");
+        res.redirect("/admin/create_election");
       };
     }
   }
@@ -640,7 +640,7 @@ app.post("/admin/election/questions", async (req, res) => {
         "error",
         isUserElection.ended ? "Election Ended" : "Unauthorized Access"
       );
-      res.redirect("/admin/elections");
+      res.redirect("/admin/create_election");
     }
   } catch {
     (error) => {
@@ -649,7 +649,7 @@ app.post("/admin/election/questions", async (req, res) => {
         "error",
         error.errors.map((error) => error.message)
       );
-      res.redirect(`/admin/elections`);
+      res.redirect(`/admin/create_election`);
     };
   }
 });
@@ -824,7 +824,7 @@ app.get(
         });
       } else {
         req.flash("error", "Unauthorized Access");
-        res.redirect("/admin/elections");
+        res.redirect("/admin/create_election");
       }
     } catch {
       (error) => {
@@ -1001,6 +1001,11 @@ app.get(
     }
   }
 );
+
+app.get("/admin/my_elections",async(req,res) =>{
+  connectEnsureLogin.ensureLoggedIn({ redirectTo: "/admin" }),
+  res.render("my_elections")
+})
 
 app.post("/voter/election", async (req, res) => {
   try {

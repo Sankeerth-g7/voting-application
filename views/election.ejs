@@ -7,6 +7,29 @@
     <title><%= title %></title>
     <meta name="csrf-token" content="<%= csrfToken %>">
     <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+    <div class="grid grid-cols-6">
+        <div class="col-start-3 col-span-2">
+            <p class="py-3 font-bold">Manage Your election Here </p>
+                <p class="py-3 ">Election Name :<%= election.electionName %></p>
+                <p class ="py-1">add a new question <a class="px-2 text-green-600 font-" href="/admin/election/questions/<%= election.id%>">click here</a></p>
+                <p class ="py-1">add a new voter <a class = "px -2 text-green-600"href="/admin/election/voters/<%= election.id%>">click here</a></p>
+                <p class ="py-1">launch election <a class = "px -2 text-green-600"href="" onclick="">click here</a></p>
+        </div>
+    </div>
+</body>
+</html>
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <meta name="csrf-token" content="<%= csrfToken %>">
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
         .hideMe {
             -moz-animation: cssAnimation 0s ease-in 5s forwards;
@@ -217,4 +240,4 @@
         }
     </script>
 </body>
-</html>
+</html> -->

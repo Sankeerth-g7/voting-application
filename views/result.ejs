@@ -7,40 +7,6 @@
     <title><%= title %></title>
     <meta name="csrf-token" content="<%= csrfToken %>">
     <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        .hideMe {
-            -moz-animation: cssAnimation 0s ease-in 5s forwards;
-            /* Firefox */
-            -webkit-animation: cssAnimation 0s ease-in 5s forwards;
-            /* Safari and Chrome */
-            -o-animation: cssAnimation 0s ease-in 5s forwards;
-            /* Opera */
-            animation: cssAnimation 0s ease-in 5s forwards;
-            -webkit-animation-fill-mode: forwards;
-            animation-fill-mode: forwards;
-        }
-        @keyframes cssAnimation {
-            to {
-                width:0;
-                height:0;
-                overflow:hidden;
-                display: none;
-            }
-        }
-        @-webkit-keyframes cssAnimation {
-            to {
-                width:0;
-                height:0;
-                visibility:hidden;
-                display: none;
-            }
-        }
-        .required::after {
-            color: #e32;
-            content: ' *';
-            display:inline;
-        }
-    </style>
 </head>
 <body>
     <div class="grid grid-cols-6">
