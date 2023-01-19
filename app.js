@@ -324,7 +324,7 @@ app.post(
   async (req, res) => {
     const election = {
       electionName: req.body.name,
-      urlString: req.body.cstring,
+      urlString: req.body.Url_String,
       userId: req.user.id,
     };
     election.urlString =
@@ -601,7 +601,7 @@ app.post("/admin/election/questions", async (req, res) => {
     desc: req.body.desc,
     electionId: req.body.electionId,
   };
-  const choice = req.body.choice;
+  const option = req.body.choices;
   try {
     const isUserElection = await Elections.isElectionbelongstoUser({
       electionId: electionId,
@@ -611,9 +611,10 @@ app.post("/admin/election/questions", async (req, res) => {
       if (!isUserElection.status) {
         try {
           const newQuestion = await Question.createQuestion(question);
-          for (let i = 0; i < choice.length; i++) {
-            await choice.createChoice({
-              desc: choice[i],
+          for (let i = 0; i < option.length; i++) {
+            console.log(option)
+            await choice.createchoice({
+              desc: option[i],
               questionId: newQuestion.id,
             });
           }
@@ -1002,9 +1003,13 @@ app.get(
   }
 );
 
-app.get("/admin/my_elections",async(req,res) =>{
-  connectEnsureLogin.ensureLoggedIn({ redirectTo: "/admin" }),
-  res.render("my_elections")
+app.get("/admin/my_elections", connectEnsureLogin.ensureLoggedIn({ redirectTo: "/admin" }), async(req,res) =>{
+  const elections = await Elections.getElectionsofUser({ userId: req.user.id });
+  const liveElections = await Elections.getLiveElectionsofUser({ userId: req.user.id });
+  res.render("my_elections", {
+    elections: elections,
+    liveElections: liveElections,
+  })
 })
 
 app.post("/voter/election", async (req, res) => {

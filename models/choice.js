@@ -32,7 +32,7 @@ module.exports = (sequelize, DataTypes) => {
     }
 
     static async createchoice({ desc, questionId }) {
-      // console.log("desc: " + desc + " questionId: " + questionId);
+      console.log("desc: " + desc + " questionId: " + questionId);
       const option = await choice.create({
         desc: desc,
         questionId: questionId,

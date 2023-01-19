@@ -2,7 +2,7 @@
   "development": {
     "username": "postgres",
     "password": "postgres",
-    "database": "wd-voting-dev",
+    "database": "cp-voting-dev",
     "host": "127.0.0.1",
     "dialect": "postgres",
     "logging": false
@@ -10,7 +10,7 @@
   "test": {
     "username": "postgres",
     "password": "postgres",
-    "database": "wd-voting-test",
+    "database": "cp-voting-test",
     "host": "127.0.0.1",
     "dialect": "postgres",
     "logging": false
