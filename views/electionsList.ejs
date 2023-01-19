@@ -5,22 +5,22 @@
   </span>
 </div>
 
-<table class="w-full text-sm text-left text-gray-500">
+<table class="w-full text-sm text-left text-black-700">
         <tr>
-            <th scope="col">
+            <th scope="col" class="px-6 py-2">
                 Election Name
             </th>
-            <th scope="col">
+            <th scope="col" class="px-6 py-2">
                   urlString
             </th>
-            <th scope="col">
+            <th scope="col" class="px-6 py-2">
                 Action
             </th>
-            <th scope="col">
-              Ended
+            <th scope="col" class="px-6 py-2">
+              Status
           </th>
-          <th scope="col">
-            MANAGE
+          <th scope="col" class="px-6 py-2">
+            Manage
           </th>
         </tr>
     <tbody>
@@ -42,7 +42,7 @@
               ended
             <% } %>
           </td>
-          <td>
+          <td class="py-4 px-6">
             <a href="/admin/election/<%= election.id %>" class="font-medium text-blue-600 hover:underline">Manage</a>
           </td>
       </tr>

@@ -9,7 +9,6 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         var token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-        // console.log(token)
         function deleteQuestion(id){
             fetch(`/admin/election/question/<%= electionId %>/${id}`, {
                 method: 'DELETE',
@@ -36,7 +35,6 @@
         <div class="col-start-3 col-span-2">
 
             <h1 class="px-2 text-2xl">Manage Question</h1> 
-            <h2 class="px-2 text-xl">Election: <%= election.electionName %> </h2>
                 <% if (election.ended) { %>
                     hidden
                 <% } %>
@@ -47,7 +45,7 @@
                     <label for="title" class="px-1">Question Title</label>
                     <input type="text" name="title" id="title" class="border border-gray-300 rounded text-gray-900 w-full p-2 text-sm" required>
                     <br>
-                    <label for="title" class="px-1">Short Description of Question</label>
+                    <label for="title" class="px-1">Description</label>
                     <input type="text" name="desc" id="desc" class="border border-gray-300 rounded text-gray-900 w-full p-2 text-sm" required>
                     <br>
                     <div id="choices">
@@ -96,7 +94,7 @@
                             </div>
                         </div>
                     </div>
-                    <button type="button" id="add-choice" class="bg-green-600 text-white px-5 py-1 rounded font-medium mx-1 my-1">Add choice</button>
+                    <button type="button" id="add-choice" class="bg-green-600 text-white px-5 py-1 rounded font-medium mx-1 my-1">Add new choice</button>
                     <button type="submit" class="bg-green-600 text-white px-5 py-1 rounded font-medium mx-1 my-1">Create Question</button>
                 </form> 
                 <div class="hidden" id="optionErr">
@@ -127,6 +125,9 @@
                         </ul>
                     <% } %>
                 </div>
+                <!-- <div>
+                    <p class="py-4 font-medium">view your questions <a href="admin/viewquestions" class="px-2 text-green-600">Click here</a></p>
+                </div> -->
             </div>
         </div>
     </div>

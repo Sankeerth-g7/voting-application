@@ -58,12 +58,12 @@ module.exports = (sequelize, DataTypes) => {
         return {
           success: election.status,
           ended: election.ended,
-          message: "Election assigned to you is Not Live Yet!!!",
+          message: " Please visit the site when the election assigned to you is Live Yet!!!",
         };
       } else {
         return {
           success: false,
-          message: "Election Does Not Exist",
+          message: "Sorry the election Does Not Exist",
         };
       }
     }
@@ -72,7 +72,7 @@ module.exports = (sequelize, DataTypes) => {
       if (electionId == null || electionId == undefined || electionId == "") {
         return {
           success: false,
-          message: "Election Not Found",
+          message: "Election Cannot beNot Found",
         };
       } else {
         const election = await this.findOne({
@@ -221,7 +221,7 @@ module.exports = (sequelize, DataTypes) => {
               });
               if (election) {
                 throw new Error(
-                  "Election with this custom string already exists"
+                  "Provide a custoum string that does not exist "
                 );
               }
             }

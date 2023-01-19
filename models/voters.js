@@ -92,13 +92,13 @@ module.exports = (sequelize, DataTypes) => {
             msg: "Voter ID cannot be empty",
           },
           islen: function (value) {
-            if (value.length < 3) {
-              throw new Error("Voter ID must be atleast 3 characters long");
+            if (value.length < 2) {
+              throw new Error("Please provide a valid Voter ID with atleast 2 characters");
             }
           },
           isUnique: async function (value) {
             if (value == null) {
-              throw new Error("Voter ID must be atleast 3 characters long");
+              throw new Error("Voter ID must be atleast 2 characters long");
             }
             const voter = await Voters.findOne({
               where: {
@@ -106,7 +106,7 @@ module.exports = (sequelize, DataTypes) => {
               },
             });
             if (voter) {
-              throw new Error("Voter ID already exists");
+              throw new Error("The Voter ID is already in use");
             }
           },
         },
@@ -116,10 +116,10 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         validate: {
           notNull: {
-            msg: "Password cannot be null",
+            msg: "Please provide a password",
           },
           notEmpty: {
-            msg: "Password cannot be empty",
+            msg: "Password Cannot be Empty",
           },
         },
       },

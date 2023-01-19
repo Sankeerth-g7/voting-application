@@ -558,7 +558,7 @@ app.get(
         console.log(questions);
         for (let i = 0; i < questions.length; i++) {
           console.log("fetching choices");
-          questions[i].choice = await choice.getAllchoicesOfQuestion({
+          questions[i].choice = await cOptions({
             questionId: questions[i].id,
             userId,
           });
@@ -601,7 +601,7 @@ app.post("/admin/election/questions", async (req, res) => {
     desc: req.body.desc,
     electionId: req.body.electionId,
   };
-  const option = req.body.choices;
+  const choice = req.body.choices;
   try {
     const isUserElection = await Elections.isElectionbelongstoUser({
       electionId: electionId,
@@ -611,10 +611,10 @@ app.post("/admin/election/questions", async (req, res) => {
       if (!isUserElection.status) {
         try {
           const newQuestion = await Question.createQuestion(question);
-          for (let i = 0; i < option.length; i++) {
-            console.log(option)
+          for (let i = 0; i < choice.length; i++) {
+            console.log(choice)
             await choice.createchoice({
-              desc: option[i],
+              desc: choice[i],
               questionId: newQuestion.id,
             });
           }
@@ -797,24 +797,24 @@ app.get(
         let result = [];
         for (let i = 0; i < questions.length; i++) {
           const question = questions[i];
-          const choice = await Option.getAllOptionsOfQuestion({
+          const choice = await cOptions({
             questionId: question.id,
           });
-          let optionResult = [];
+          let choiceResult = [];
           let count = 0;
           for (let j = 0; j < choice.length; j++) {
-            const option = choice[j];
-            const votes = await Vote.getVotesOfOption({ choiceId: option.id });
+            const choice = choice[j];
+            const votes = await Vote.getVotesOfOption({ choiceId: choice.id });
             count += votes.length;
-            optionResult.push({
-              option: option,
+            choiceResult.push({
+              choice: choice,
               votes: votes.length,
             });
           }
           result.push({
             votes: count,
             question: question,
-            choice: optionResult,
+            choice: choiceResult,
           });
         }
         res.render("result", {
@@ -945,7 +945,7 @@ app.get(
         } else {
           console.log("Voting");
           for (let i = 0; i < questions.length; i++) {
-            questions[i].choice = await Option.getAllOptionsOfQuestion({
+            questions[i].choice = await choice.getAllchoicesOfQuestion({
               questionId: questions[i].id,
             });
           }
@@ -963,24 +963,24 @@ app.get(
         let result = [];
         for (let i = 0; i < questions.length; i++) {
           const question = questions[i];
-          const choice = await Option.getAllOptionsOfQuestion({
+          const choice = await cOptions({
             questionId: question.id,
           });
-          let optionResult = [];
+          let choiceResult = [];
           let count = 0;
           for (let j = 0; j < choice.length; j++) {
-            const option = choice[j];
-            const votes = await Vote.getVotesOfOption({ choiceId: option.id });
+            const choice = choice[j];
+            const votes = await Vote.getVotesOfChoice({ choiceId: choice.id });
             count += votes.length;
-            optionResult.push({
-              option: option,
+            choiceResult.push({
+              choice: choice,
               votes: votes.length,
             });
           }
           result.push({
             votes: count,
             question: question,
-            choice: optionResult,
+            choice: choiceResult,
           });
         }
         res.render("alreadyVoted", {
@@ -1022,7 +1022,7 @@ app.post("/voter/election", async (req, res) => {
     }
     const choice = [];
     for (let i = 0; i < questionVoted.length; i++) {
-      choice.push(req.body[`option${i}`]);
+      choice.push(req.body[`choice${i}`]);
     }
     if (questionVoted.length != choice.length) {
       req.flash("error", "There was Some Issue, Please try Again !!!");
@@ -1030,7 +1030,7 @@ app.post("/voter/election", async (req, res) => {
     } else {
       let checkChoiceBelongsToQuestion = true;
       for (let i = 0; i < questionVoted.length; i++) {
-        checkChoiceBelongsToQuestion = (await Option.doesOptionBelongToQuestion(
+        checkChoiceBelongsToQuestion = (await choice.doesOptionBelongToQuestion(
           {questionId: questionVoted[i], choiceId: choice[i] }
         ))
           ? checkChoiceBelongsToQuestion

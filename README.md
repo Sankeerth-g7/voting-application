@@ -5,7 +5,6 @@ A web-based voting application built using Node.js and PostgreSQL.
 ## Features
 
 - Create and manage elections
-- Invite voters via email
 - Customizable ballot options
 - Real-time voting results
 
@@ -39,3 +38,16 @@ To run the tests, use the following command: `npm test`
 - [Node.js](https://nodejs.org/) - The web framework used
 - [Express](https://expressjs.com/) - The web server used
 - [PostgreSQL](https://www.postgresql.org/) - The database used
+
+## Screenshots of the application
+
+### Admin page
+
+![Creating Election](
+https://raw.githubusercontent.com/Sankeerth-g7/voting-application/master/ScreenShots/Screenshot(187).png)
+
+![Elections List](
+https://raw.githubusercontent.com/Sankeerth-g7/voting-application/master/ScreenShots/Screenshot(188).png)
+
+![Managing election](
+https://raw.githubusercontent.com/Sankeerth-g7/voting-application/master/ScreenShots/Screenshot(189).png)

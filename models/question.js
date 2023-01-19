@@ -85,7 +85,7 @@ module.exports = (sequelize, DataTypes) => {
           },
           islen: function (value) {
             if (value.length < 3 || value.length > 100) {
-              throw new Error("Title must be between 3 and 100 characters");
+              throw new Error("please provide a title between 3 and 100 chars");
             }
           },
         },
@@ -103,7 +103,7 @@ module.exports = (sequelize, DataTypes) => {
           islen: function (value) {
             if (value.length < 3 || value.length > 500) {
               throw new Error(
-                "Description must be between 3 and 500 characters"
+                "please provide a description between 3 and 500 chars"
               );
             }
           },

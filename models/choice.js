@@ -57,10 +57,10 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         validate: {
           notNull: {
-            msg: "choice description cannot be null",
+            msg: "description for choice cannot be null",
           },
           notEmpty: {
-            msg: "choice description cannot be empty",
+            msg: "description for choice cannot be empty",
           },
           islen: function (value) {
             if (value.length < 3 || value.length > 255) {
