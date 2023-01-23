@@ -322,6 +322,7 @@ app.post(
   "/admin/election",
   connectEnsureLogin.ensureLoggedIn({ redirectTo: "/admin/" }),
   async (req, res) => {
+    console.log("Creating a new election");
     const election = {
       electionName: req.body.name,
       urlString: req.body.Url_String,
@@ -558,9 +559,9 @@ app.get(
         console.log(questions);
         for (let i = 0; i < questions.length; i++) {
           console.log("fetching choices");
-          questions[i].choice = await cOptions({
+          questions[i].choice = await choice.getAllchoicesOfQuestion({
             questionId: questions[i].id,
-            userId,
+            // userId,
           });
           console.log(questions[i].choice);
         }
@@ -601,7 +602,7 @@ app.post("/admin/election/questions", async (req, res) => {
     desc: req.body.desc,
     electionId: req.body.electionId,
   };
-  const choice = req.body.choices;
+  const given_choices = req.body.choices;
   try {
     const isUserElection = await Elections.isElectionbelongstoUser({
       electionId: electionId,
@@ -611,10 +612,10 @@ app.post("/admin/election/questions", async (req, res) => {
       if (!isUserElection.status) {
         try {
           const newQuestion = await Question.createQuestion(question);
-          for (let i = 0; i < choice.length; i++) {
-            console.log(choice)
+          for (let i = 0; i < given_choices.length; i++) {
+            console.log(given_choices)
             await choice.createchoice({
-              desc: choice[i],
+              desc: given_choices[i],
               questionId: newQuestion.id,
             });
           }
