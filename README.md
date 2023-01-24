@@ -44,10 +44,10 @@ To run the tests, use the following command: `npm test`
 ### Admin page
 
 ![Creating Election](
-https://raw.githubusercontent.com/Sankeerth-g7/voting-application/master/ScreenShots/Screenshot(187).png)
+https://github.com/Sankeerth-g7/voting-application/blob/master/ScreenShots/Screenshot%20(187).png)
 
 ![Elections List](
-https://raw.githubusercontent.com/Sankeerth-g7/voting-application/master/ScreenShots/Screenshot(188).png)
+https://github.com/Sankeerth-g7/voting-application/blob/master/ScreenShots/Screenshot%20(187).png)
 
 ![Managing election](
-https://raw.githubusercontent.com/Sankeerth-g7/voting-application/master/ScreenShots/Screenshot(189).png)
+https://github.com/Sankeerth-g7/voting-application/blob/master/ScreenShots/Screenshot%20(187).png)
